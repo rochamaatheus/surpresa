@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1027" />
+  <title>Para Você 💜</title>
+  <style>
+  :root{
+    --bg-1:#0b0a13;
+    --bg-2:#1a1027;
+    --card:#120e1a;
+    --text:#f7eaff;
+    --muted:#cdb6ff;
+    --pink:#ff77c8;
+    --purple:#9b7bff;
+    --glow: 0 0 24px rgba(187, 132, 255, .45), 0 0 48px rgba(255, 119, 200, .25);
+    --radius: 20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color:var(--text);
+    background: radial-gradient(1200px 800px at 10% 10%, rgba(155,123,255,.15), transparent 60%),
+                radial-gradient(800px 600px at 90% 20%, rgba(255,119,200,.18), transparent 60%),
+                linear-gradient(180deg,var(--bg-2),var(--bg-1));
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  #bg-canvas{
+    position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;
+    filter:drop-shadow(0 0 6px rgba(255,119,200,.4));
+    opacity:.8;pointer-events:none;
+  }
+  .wrap{
+    min-height:100%;
+    display:grid;
+    place-items:start center;
+    padding:clamp(16px,4vw,40px);
+    padding-bottom:calc(clamp(16px,6vw,60px)+env(safe-area-inset-bottom));
+  }
+  .header{text-align:center;margin-bottom:16px}
+  .title{
+    font-weight:800;line-height:1.1;
+    font-size:clamp(28px,6.2vw,52px);
+    text-shadow:var(--glow);
+    background:linear-gradient(90deg,var(--pink),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:6px;
+  }
+  .subtitle{color:var(--muted);font-size:clamp(12px,3.4vw,16px);opacity:.9}
+  .card{
+    width:min(720px,100%);
+    background:color-mix(in hsl,var(--card),black 8%);
+    border:1px solid color-mix(in hsl,var(--purple),black 50%);
+    border-radius:var(--radius);
+    padding:clamp(16px,4vw,32px);
+    box-shadow:0 1px 0 rgba(255,255,255,.03) inset,0 20px 60px rgba(0,0,0,.45);
+    backdrop-filter:blur(8px) saturate(1.1);
+    position:relative;overflow:hidden;
+    text-align:center;
+  }
+  .card::before{
+    content:"";position:absolute;inset:-2px;border-radius:calc(var(--radius)+2px);
+    padding:2px;background:conic-gradient(from 180deg at 50% 50%,rgba(255,119,200,.4),rgba(155,123,255,.45),rgba(255,119,200,.4));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    filter:blur(6px);opacity:.25;pointer-events:none;
+  }
+  .polaroid{
+    background:#fff;border-radius:8px;padding:10px 10px 50px;
+    width:min(420px,100%);margin:0 auto 18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.4),0 4px 0 rgba(0,0,0,.4) inset;
+    transform:rotate(-1.5deg);
+  }
+  .polaroid img{display:block;width:100%;height:auto;border-radius:6px}
+  .message{margin:0 auto;max-width:58ch;font-size:clamp(16px,4.5vw,20px);line-height:1.6;text-align:center}
+  .message p{margin:10px 0}
+  .cta{
+    margin:22px auto 8px;
+    display:block;
+    font-weight:700;
+    font-size:clamp(16px,4.2vw,18px);
+    padding:14px 22px;
+    border-radius:999px;
+    border:0;
+    color:var(--text);
+    background:linear-gradient(90deg,var(--purple),var(--pink));
+    box-shadow:var(--glow);
+    cursor:pointer;
+    transition:transform .15s ease,filter .2s ease;
+  }
+  .cta:active{transform:scale(.97)}
+  .footer{text-align:center;color:var(--muted);margin-top:8px;font-size:12px}
+  @media (min-width:700px){.wrap{place-items:center}.card{padding:40px 44px}.message{font-size:20px}}
+  @media (prefers-reduced-motion:reduce){#bg-canvas{display:none}.title{text-shadow:none}.cta{transition:none}}
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <header class="header">
+      <h1 class="title" id="title">Para meu amor 💖</h1>
+      <p class="subtitle">feito com carinho, em cada detalhe</p>
+    </header>
+    <main class="card">
+      <div class="polaroid">
+        <img src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%23ff8bd1' offset='0'/><stop stop-color='%23b388ff' offset='1'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='64' font-family='Arial' fill='white'>Nossa foto 💞</text></svg>" alt="Nossa foto">
+      </div>
+      <div class="message" id="message"></div>
+      <button class="cta" id="cta">Toque para um 💜</button>
+    </main>
+  </div>
+
+  <script>
+  const CONFIG={
+    nomeParceira:'meu amor',
+    assinatura:'Matheus',
+    linhas:[
+      'Eu te amo em cada detalhe, em cada beijo açucarado e em cada abraço apertado.',
+      'Desde que você entrou na minha vida, tudo ganhou mais cor e se tornou mais adocicado 💜💗',
+      'Prometo ser refúgio nos dias nublados e comemorar cada pedacinho de sol nascente da madrugada.',
+      'Hoje, amanhã e sempre: eu escolho você como minha amada.'
+    ],
+    typewriterMsPerChar:18
+  };
+
+  const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const titleEl=document.getElementById('title');
+  const messageEl=document.getElementById('message');
+  const cta=document.getElementById('cta');
+
+  titleEl.textContent=`Para ${CONFIG.nomeParceira} 💖`;
+
+  (async function(){
+    for(const linha of CONFIG.linhas){
+      const p=document.createElement('p');
+      await typewriter(p,linha,CONFIG.typewriterMsPerChar);
+      messageEl.appendChild(p);
+      await sleep(100);
+    }
+    const p=document.createElement('p');
+    await typewriter(p,`Com amor, ${CONFIG.assinatura} 💜`,CONFIG.typewriterMsPerChar);
+    messageEl.appendChild(p);
+  })();
+
+  // === Canvas e corações ===
+  const canvas=document.getElementById('bg-canvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,hearts=[];
+  function onResize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;}
+  onResize();window.addEventListener('resize',onResize,{passive:true});
+
+  class Heart{
+    constructor(x,y,s,c,v){
+      this.x=x;this.y=y;this.size=s;this.col=c;
+      this.vy=v;this.life=10;this.t=0;
+      this.wobble=Math.random()*Math.PI*2;
+    }
+    step(dt){
+      this.t+=dt;
+      this.y-=this.vy*dt*60;
+      this.x+=Math.sin(this.t*3+this.wobble)*1.2;
+    }
+    draw(ctx){
+      ctx.save();
+      ctx.translate(this.x,this.y);
+      ctx.scale(this.size,this.size);
+      ctx.fillStyle=this.col;
+      ctx.globalAlpha=Math.max(0,1-this.t/this.life);
+      drawHeartPath(ctx);
+      ctx.shadowColor=this.col;
+      ctx.shadowBlur=12*this.size;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function rand(a,b){return Math.random()*(b-a)+a;}
+  function drawHeartPath(ctx){
+    ctx.beginPath();
+    ctx.moveTo(0,-8);
+    ctx.bezierCurveTo(8,-18,24,-10,24,6);
+    ctx.bezierCurveTo(24,20,8,28,0,36);
+    ctx.bezierCurveTo(-8,28,-24,20,-24,6);
+    ctx.bezierCurveTo(-24,-10,-8,-18,0,-8);
+    ctx.closePath();
+  }
+
+  // === Animação contínua ===
+  let last=performance.now();
+  function loop(t){
+    const dt=Math.min(0.05,(t-last)/1000); last=t;
+    ctx.clearRect(0,0,W,H);
+    hearts.forEach(h=>{h.step(dt);h.draw(ctx);});
+    hearts=hearts.filter(h=>h.y+40>0 && h.t<h.life);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // === Clique no botão: gera corações subindo ===
+  cta.addEventListener('click',()=>{
+    const rect=cta.getBoundingClientRect();
+    const x=rect.left+rect.width/2;
+    const y=rect.top;
+    // gera vários corações subindo
+    for(let i=0;i<25;i++){
+      const hx=x+rand(-60,60);
+      const hy=y+rand(-10,10)+H*0.05;
+      const s=rand(0.5,1.5);
+      const c=Math.random()<0.5?'#ff77c8':'#b388ff';
+      const v=rand(0.8,1.6);
+      hearts.push(new Heart(hx,hy,s,c,v));
+    }
+  });
+
+  function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+  async function typewriter(el,text,delay){messageEl.appendChild(el);for(const ch of text){el.textContent+=ch;await sleep(delay);} }
+  </script>
+</body>
+</html>
